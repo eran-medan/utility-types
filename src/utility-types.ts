@@ -158,6 +158,22 @@ export type $NonMaybeType<T> = NonNullable<T>;
 export type Class<T> = new (...args: any[]) => T;
 
 /**
+ * Constructor
+ * @desc Represents a typed constructor of type T. Supports also passing abstract classes. 
+ * @see https://flow.org/en/docs/types/utilities/#toc-constructor
+ * @example
+ *   class Store {
+ *     constructor(param1: string, param2: number) {}
+ *   }
+ *   //note that you need to add `typeof` to ensure typesafety
+ *   function makeStore(storeClass: Constructor<typeof Store>): Store {
+ *     return new storeClass("a", 1); // compiles
+ *     // return new storeClass(1, "a"); // doesn't compile
+ *   }
+ */
+export type Constructor<T extends abstract new (...args: ConstructorParameters<T>) => InstanceType<T>> = new (...args: ConstructorParameters<T>) => InstanceType<T>;
+
+/**
  * mixed
  * @desc An arbitrary type that could be anything
  * @see https://flow.org/en/docs/types/mixed
